@@ -20,7 +20,7 @@ const links = [
 ];
 
 const Header = () => {
-  const logoSrc = require("../../assets/img/header-logo.png");
+  const logoSrc = require("../assets/img/header-logo.png");
   return (
     <header className="container">
       <div className="row">
