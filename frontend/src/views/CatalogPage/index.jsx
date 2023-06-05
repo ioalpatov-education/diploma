@@ -1,12 +1,6 @@
 const CatalogPage = () => {
-  const bannerSrc = require("../../assets/img/banner.jpg");
   return (
-    <div className="row">
-      <div className="col">
-        <div className="banner">
-          <img src={bannerSrc} className="img-fluid" alt="К весне готовы!" />
-          <h2 className="banner-header">К весне готовы!</h2>
-        </div>
+
         <section className="catalog">
           <h2 className="text-center">Каталог</h2>
           <form className="catalog-search-form form-inline">
@@ -159,8 +153,7 @@ const CatalogPage = () => {
             <button className="btn btn-outline-primary">Загрузить ещё</button>
           </div>
         </section>
-      </div>
-    </div>
+
   );
 };
 

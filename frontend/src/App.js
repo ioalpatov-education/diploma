@@ -1,6 +1,7 @@
 import "./App.css";
 import HomePage from "./views/HomePage";
 import CatalogPage from "./views/CatalogPage";
+import AboutPage from "./views/AboutPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useRoutes } from "react-router-dom";
@@ -17,7 +18,7 @@ function App() {
     },
     {
       path: "/about",
-      element: <HomePage />,
+      element: <AboutPage />,
     },
     {
       path: "/contacts",
@@ -25,10 +26,26 @@ function App() {
     },
   ]);
 
+  const bannerSrc = require("./assets/img/banner.jpg");
+
   return (
     <div className="app">
       <Header />
-      <main className="container"> {routes}</main>
+      <main className="container">
+        <div className="row">
+          <div className="col">
+            <div className="banner">
+              <img
+                src={bannerSrc}
+                className="img-fluid"
+                alt="К весне готовы!"
+              />
+              <h2 className="banner-header">К весне готовы!</h2>
+            </div>
+            {routes}
+          </div>
+        </div>
+      </main>
       <Footer />
     </div>
   );
