@@ -1,5 +1,6 @@
 import "./App.css";
 import HomePage from "./views/HomePage";
+import CatalogPage from "./views/CatalogPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useRoutes } from "react-router-dom";
@@ -12,7 +13,7 @@ function App() {
     },
     {
       path: "/catalog",
-      element: <HomePage />,
+      element: <CatalogPage />,
     },
     {
       path: "/about",
