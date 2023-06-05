@@ -2,6 +2,7 @@ import "./App.css";
 import HomePage from "./views/HomePage";
 import CatalogPage from "./views/CatalogPage";
 import AboutPage from "./views/AboutPage";
+import ContactsPage from "./views/ContactsPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useRoutes } from "react-router-dom";
@@ -22,7 +23,7 @@ function App() {
     },
     {
       path: "/contacts",
-      element: <HomePage />,
+      element: <ContactsPage />,
     },
   ]);
 
