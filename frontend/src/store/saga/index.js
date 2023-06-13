@@ -10,8 +10,10 @@ import {
   sendRequestToGetCategories,
   getCategoriesSuccess,
   exposeError,
+  sendRequestToGetTopSales,
+  getTopSalesSuccess,
 } from "../slices/shoesSlice";
-import { getCategories } from "../api";
+import { getCategories, getTopSales } from "../api";
 
 function* updateApi({ api, id }) {
   while (true) {
@@ -31,8 +33,22 @@ function* handleCategoriesSaga() {
   } catch (e) {
     yield put(
       exposeError({
-        error: e,
+        error: e.message,
         type: "categories",
+      })
+    );
+  }
+}
+
+function* handleTopSalesSaga() {
+  try {
+    const data = yield call(getTopSales);
+    yield put(getTopSalesSuccess(data));
+  } catch (e) {
+    yield put(
+      exposeError({
+        error: e.message,
+        type: "topSales",
       })
     );
   }
@@ -54,6 +70,10 @@ function* watchCategoriesSaga() {
   yield takeLeading(sendRequestToGetCategories.type, handleCategoriesSaga);
 }
 
+function* watchTopSalesSaga() {
+  yield takeLeading(sendRequestToGetTopSales.type, handleTopSalesSaga);
+}
+
 // function* watchNewsListWithLastSeenIdSaga() {
 //   yield takeLeading(
 //     sendRequestToReceiveNewsWithLastSeenId.type,
@@ -63,5 +83,5 @@ function* watchCategoriesSaga() {
 
 export default function* saga() {
   yield spawn(watchCategoriesSaga);
-  // yield spawn(watchNewsListWithLastSeenIdSaga);
+  yield spawn(watchTopSalesSaga);
 }

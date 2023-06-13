@@ -5,7 +5,6 @@ const Filters = () => {
     (state) => state.shoes.categories
   );
 
-  // console.log(items, selectedCategoryId);
   return (
     <ul className="catalog-categories nav justify-content-center">
       {items.map((cat) => {

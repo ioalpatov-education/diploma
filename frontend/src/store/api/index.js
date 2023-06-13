@@ -5,9 +5,25 @@ const API_URL = process.env.REACT_APP_API_URL;
 export const getCategories = async () => {
   try {
     const { data } = await axios.get(`${API_URL}/categories`);
-
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    if (err && err.message) {
+      throw new Error(err.message);
+    } else {
+      throw new Error("Неизвестная ошибка");
+    }
+  }
+};
+
+export const getTopSales = async () => {
+  try {
+    const { data } = await axios.get(`${API_URL}/top-sales`);
+    return data;
+  } catch (err) {
+    if (err && err.message) {
+      throw new Error(err.message);
+    } else {
+      throw new Error("Неизвестная ошибка");
+    }
   }
 };

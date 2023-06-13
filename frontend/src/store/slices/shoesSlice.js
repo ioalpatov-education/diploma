@@ -32,23 +32,32 @@ export const shoesSlice = createSlice({
       state[type].error = error;
       state[type].loading = false;
     },
-    changeLoadingByLoadType: (state, action) => {
-      const { loadType, loading } = action.payload;
-
-      state[loadType].loading = loading;
-    },
     sendRequestToGetCategories: (state) => {
       state.categories.loading = true;
     },
+
     getCategoriesSuccess: (state, action) => {
       const categories = action.payload;
       state.categories.items = [state.categories.items[0], ...categories];
       state.categories.loading = false;
     },
+    sendRequestToGetTopSales: (state) => {
+      state.topSales.loading = true;
+    },
+    getTopSalesSuccess: (state, action) => {
+      const topSales = action.payload;
+      state.topSales.items = topSales;
+      state.topSales.loading = false;
+    },
   },
 });
 
-export const { sendRequestToGetCategories, getCategoriesSuccess, exposeError } =
-  shoesSlice.actions;
+export const {
+  sendRequestToGetCategories,
+  getCategoriesSuccess,
+  exposeError,
+  sendRequestToGetTopSales,
+  getTopSalesSuccess,
+} = shoesSlice.actions;
 
 export default shoesSlice.reducer;
