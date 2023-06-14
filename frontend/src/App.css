@@ -215,6 +215,12 @@ section {
   box-shadow: none;
 }
 
+.card-text-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 /* Footer */
 .footer {
   padding: 0 25px;
