@@ -41,6 +41,9 @@ export const shoesSlice = createSlice({
       state.categories.items = [state.categories.items[0], ...categories];
       state.categories.loading = false;
     },
+    changeSelectCategoryId: (state, action) => {
+      const categoryId = action.payload;
+    },
     sendRequestToGetTopSales: (state) => {
       state.topSales.loading = true;
     },
