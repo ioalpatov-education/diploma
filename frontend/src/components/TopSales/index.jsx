@@ -15,7 +15,7 @@ const TopSales = () => {
 
   return (
     <>
-      {!items.length ? null : (
+      {!items.length && !loading ? null : (
         <section className="top-sales">
           <h2 className="text-center">Хиты продаж!</h2>
           {loading ? <Preloader /> : <ShoesList shoes={items} />}

@@ -7,7 +7,7 @@ const ShoesList = ({ shoes }) => {
       {shoes.map((shoe) => {
         return (
           <div className="col-4" key={shoe.id}>
-            <ShoeCard shoe />
+            <ShoeCard shoe={shoe} />
           </div>
         );
       })}
