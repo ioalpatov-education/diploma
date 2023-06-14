@@ -7,11 +7,12 @@ import {
   sendRequestToGetShoes,
 } from "../../store/slices/shoesSlice";
 import Preloader from "../../components/Preloader";
+import { LoadingButton } from "@mui/lab";
 
 const ShoeCatalog = ({ children }) => {
   const { categories, shoeCatalog } = useSelector((state) => state.shoes);
   const { loading: categoriesLoading } = categories;
-  const { loading: shoeCatalogLoading, items: shoes } = shoeCatalog;
+  const { loading: shoeCatalogLoading, items: shoes, isGetMore } = shoeCatalog;
 
   const dispatch = useDispatch();
 
@@ -20,19 +21,41 @@ const ShoeCatalog = ({ children }) => {
     dispatch(sendRequestToGetShoes());
   }, []);
 
+  const loadMoreShoes = () => {
+    dispatch(sendRequestToGetShoes());
+  };
+
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
-      {shoeCatalogLoading ? (
+      {shoeCatalogLoading && !shoes.length ? (
         <Preloader />
       ) : (
         <>
           {children}
           {categoriesLoading ? <Preloader /> : <Filters />}
           <ShoesList shoes={shoes} />
-          <div className="text-center">
-            <button className="btn btn-outline-primary">Загрузить ещё</button>
-          </div>
+          {isGetMore ? (
+            <div className="text-center">
+              {shoeCatalogLoading ? (
+                <LoadingButton
+                  size="small"
+                  loading={shoeCatalogLoading}
+                  disabled
+                  variant="contained"
+                >
+                  Загрузить ещё
+                </LoadingButton>
+              ) : (
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={loadMoreShoes}
+                >
+                  Загрузить ещё
+                </button>
+              )}
+            </div>
+          ) : null}
         </>
       )}
     </section>
