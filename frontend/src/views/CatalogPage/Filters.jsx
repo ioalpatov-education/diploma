@@ -10,7 +10,9 @@ const Filters = () => {
       {items.map((cat) => {
         const { id, title } = cat;
         const linkClasses =
-          selectedCategoryId === id ? "nav-link active" : "nav-link";
+          selectedCategoryId === id || (!selectedCategoryId && title === "Все")
+            ? "nav-link active"
+            : "nav-link";
         return (
           <li className="nav-item" key={id}>
             <a className={linkClasses} href="##">

@@ -13,10 +13,11 @@ const initialState = {
     items: [],
     loading: false,
     error: null,
+    isGetMore: true,
   },
   categories: {
     items: [{ id: allCategoryId, title: "Все" }],
-    selectedCategoryId: allCategoryId,
+    selectedCategoryId: null,
     loading: false,
     error: null,
   },
@@ -40,6 +41,7 @@ export const shoesSlice = createSlice({
       const categories = action.payload;
       state.categories.items = [state.categories.items[0], ...categories];
       state.categories.loading = false;
+      state.categories.error = null;
     },
     changeSelectCategoryId: (state, action) => {
       const categoryId = action.payload;
@@ -51,6 +53,18 @@ export const shoesSlice = createSlice({
       const topSales = action.payload;
       state.topSales.items = topSales;
       state.topSales.loading = false;
+      state.topSales.error = null;
+    },
+    sendRequestToGetShoes: (state, action) => {
+      // const { categoryId, offset } = action.payload;
+      state.shoeCatalog.loading = true;
+    },
+    getShoesSuccess: (state, action) => {
+      const shoes = action.payload;
+      state.shoeCatalog.isGetMore = shoes.length < 6 ? false : true;
+      state.shoeCatalog.items = [...state.shoeCatalog.items, ...shoes];
+      state.shoeCatalog.loading = false;
+      state.shoeCatalog.error = null;
     },
   },
 });
@@ -61,6 +75,8 @@ export const {
   exposeError,
   sendRequestToGetTopSales,
   getTopSalesSuccess,
+  sendRequestToGetShoes,
+  getShoesSuccess,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;

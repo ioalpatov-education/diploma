@@ -2,7 +2,10 @@ import Filters from "./Filters";
 import ShoesList from "../../components/ShoesList";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendRequestToGetCategories } from "../../store/slices/shoesSlice";
+import {
+  sendRequestToGetCategories,
+  sendRequestToGetShoes,
+} from "../../store/slices/shoesSlice";
 import Preloader from "../../components/Preloader";
 
 const ShoeCatalog = ({ children }) => {
@@ -14,6 +17,7 @@ const ShoeCatalog = ({ children }) => {
 
   useEffect(() => {
     dispatch(sendRequestToGetCategories());
+    dispatch(sendRequestToGetShoes());
   }, []);
 
   return (
