@@ -13,7 +13,7 @@ const initialState = {
     items: [],
     loading: false,
     error: null,
-    isGetMore: true,
+    isGetMore: false,
   },
   categories: {
     items: [{ id: allCategoryId, title: "Все" }],

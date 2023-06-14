@@ -28,36 +28,28 @@ const ShoeCatalog = ({ children }) => {
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
-      {shoeCatalogLoading && !shoes.length ? (
+      {shoeCatalogLoading ? (
         <Preloader />
       ) : (
         <>
           {children}
           {categoriesLoading ? <Preloader /> : <Filters />}
           <ShoesList shoes={shoes} />
-          {isGetMore ? (
-            <div className="text-center">
-              {shoeCatalogLoading ? (
-                <LoadingButton
-                  size="small"
-                  loading={shoeCatalogLoading}
-                  disabled
-                  variant="contained"
-                >
-                  Загрузить ещё
-                </LoadingButton>
-              ) : (
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={loadMoreShoes}
-                >
-                  Загрузить ещё
-                </button>
-              )}
-            </div>
-          ) : null}
         </>
       )}
+      {isGetMore ? (
+        <div className="text-center">
+          {shoeCatalogLoading ? (
+            <button className="btn btn-outline-primary" disabled>
+              Загрузить ещё
+            </button>
+          ) : (
+            <button className="btn btn-outline-primary" onClick={loadMoreShoes}>
+              Загрузить ещё
+            </button>
+          )}
+        </div>
+      ) : null}
     </section>
   );
 };
