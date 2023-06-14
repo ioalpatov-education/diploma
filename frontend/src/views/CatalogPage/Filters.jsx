@@ -1,9 +1,20 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  changeSelectCategoryId,
+  sendRequestToGetShoes,
+} from "../../store/slices/shoesSlice";
 
 const Filters = () => {
   const { items, selectedCategoryId } = useSelector(
     (state) => state.shoes.categories
   );
+
+  const dispatch = useDispatch();
+
+  const handleClick = (e, id) => {
+    dispatch(changeSelectCategoryId(id));
+    dispatch(sendRequestToGetShoes());
+  };
 
   return (
     <ul className="catalog-categories nav justify-content-center">
@@ -15,7 +26,11 @@ const Filters = () => {
             : "nav-link";
         return (
           <li className="nav-item" key={id}>
-            <a className={linkClasses} href="##">
+            <a
+              className={linkClasses}
+              href="##"
+              onClick={(e) => handleClick(e, id)}
+            >
               {title}
             </a>
           </li>

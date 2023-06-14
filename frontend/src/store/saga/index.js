@@ -46,9 +46,13 @@ function* handleTopSalesSaga() {
 
 function* handleShoesSaga() {
   const { categories, shoeCatalog } = yield select((state) => state.shoes);
+  const categoryId =
+    categories.selectedCategoryId === categories.items[0].id
+      ? null
+      : categories.selectedCategoryId;
 
   yield call(useApiToGetData, getShoes, "shoeCatalog", getShoesSuccess, {
-    categoryId: categories.selectedCategoryId,
+    categoryId,
     offset: shoeCatalog.items.length,
   });
 }

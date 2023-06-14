@@ -7,7 +7,6 @@ import {
   sendRequestToGetShoes,
 } from "../../store/slices/shoesSlice";
 import Preloader from "../../components/Preloader";
-import { LoadingButton } from "@mui/lab";
 
 const ShoeCatalog = ({ children }) => {
   const { categories, shoeCatalog } = useSelector((state) => state.shoes);

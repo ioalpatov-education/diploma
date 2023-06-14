@@ -17,7 +17,7 @@ const initialState = {
   },
   categories: {
     items: [{ id: allCategoryId, title: "Все" }],
-    selectedCategoryId: null,
+    selectedCategoryId: allCategoryId,
     loading: false,
     error: null,
   },
@@ -45,6 +45,8 @@ export const shoesSlice = createSlice({
     },
     changeSelectCategoryId: (state, action) => {
       const categoryId = action.payload;
+      state.categories.selectedCategoryId = categoryId;
+      state.shoeCatalog.items = [];
     },
     sendRequestToGetTopSales: (state) => {
       state.topSales.loading = true;
@@ -70,6 +72,7 @@ export const shoesSlice = createSlice({
 });
 
 export const {
+  changeSelectCategoryId,
   sendRequestToGetCategories,
   getCategoriesSuccess,
   exposeError,
