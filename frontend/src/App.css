@@ -188,12 +188,20 @@ section {
 .catalog-item-size {
   display: inline-block;
   padding: 0 10px;
+  border: none;
+  border-radius: 15px;
+  background-color: transparent;
+  outline: none;
 }
 
 .catalog-item-size.selected {
   background: #727e86;
   border-radius: 15px;
   color: #fff;
+}
+
+.catalog-item-size:focus {
+  outline: none;
 }
 
 .catalog-search-form {

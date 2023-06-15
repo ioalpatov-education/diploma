@@ -1,11 +1,4 @@
-import {
-  takeLeading,
-  put,
-  spawn,
-  call,
-  delay,
-  select,
-} from "redux-saga/effects";
+import { takeLeading, put, spawn, call, select } from "redux-saga/effects";
 import {
   sendRequestToGetCategories,
   getCategoriesSuccess,
@@ -14,8 +7,10 @@ import {
   getTopSalesSuccess,
   sendRequestToGetShoes,
   getShoesSuccess,
+  sendRequestToGetShoeDetails,
+  getShoeDetailsSuccess,
 } from "../slices/shoesSlice";
-import { getCategories, getTopSales, getShoes } from "../api";
+import { getCategories, getTopSales, getShoes, getShoeDetails } from "../api";
 
 function* useApiToGetData(api, type, action, params) {
   try {
@@ -58,6 +53,19 @@ function* handleShoesSaga() {
   });
 }
 
+function* handleShoeDetailsSaga(action) {
+  const shoeId = action.payload;
+  yield call(
+    useApiToGetData,
+    getShoeDetails,
+    "shoeDetails",
+    getShoeDetailsSuccess,
+    {
+      shoeId,
+    }
+  );
+}
+
 function* watchCategoriesSaga() {
   yield takeLeading(sendRequestToGetCategories.type, handleCategoriesSaga);
 }
@@ -70,8 +78,13 @@ function* watchShoesSaga() {
   yield takeLeading(sendRequestToGetShoes.type, handleShoesSaga);
 }
 
+function* watchShoeDetailsSaga() {
+  yield takeLeading(sendRequestToGetShoeDetails.type, handleShoeDetailsSaga);
+}
+
 export default function* saga() {
   yield spawn(watchCategoriesSaga);
   yield spawn(watchTopSalesSaga);
   yield spawn(watchShoesSaga);
+  yield spawn(watchShoeDetailsSaga);
 }

@@ -40,15 +40,13 @@ const ShoeCatalog = ({ children }) => {
       )}
       {isGetMore ? (
         <div className="text-center">
-          {shoeCatalogLoading ? (
-            <button className="btn btn-outline-primary" disabled>
-              Загрузить ещё
-            </button>
-          ) : (
-            <button className="btn btn-outline-primary" onClick={loadMoreShoes}>
-              Загрузить ещё
-            </button>
-          )}
+          <button
+            className="btn btn-outline-primary"
+            onClick={loadMoreShoes}
+            disabled={shoeCatalogLoading}
+          >
+            Загрузить ещё
+          </button>
         </div>
       ) : null}
     </section>

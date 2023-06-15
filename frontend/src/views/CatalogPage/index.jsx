@@ -24,8 +24,7 @@ const CatalogPage = () => {
     }
   };
   return (
-    <section className="catalog">
-      <h2 className="text-center">Каталог</h2>
+    <ShoeCatalog>
       <form className="catalog-search-form form-inline">
         <input
           onKeyDown={searchShoes}
@@ -35,9 +34,7 @@ const CatalogPage = () => {
           value={searchInput}
         />
       </form>
-
-      <ShoeCatalog />
-    </section>
+    </ShoeCatalog>
   );
 };
 

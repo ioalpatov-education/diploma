@@ -3,6 +3,7 @@ import HomePage from "./views/HomePage";
 import CatalogPage from "./views/CatalogPage";
 import AboutPage from "./views/AboutPage";
 import ContactsPage from "./views/ContactsPage";
+import ShoeDetailsPage from "./views/ShoeDetailsPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useRoutes } from "react-router-dom";
@@ -16,6 +17,10 @@ function App() {
     {
       path: "/catalog",
       element: <CatalogPage />,
+    },
+    {
+      path: "/catalog/:id",
+      element: <ShoeDetailsPage />,
     },
     {
       path: "/about",

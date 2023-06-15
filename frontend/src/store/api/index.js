@@ -47,3 +47,17 @@ export const getShoes = async ({ categoryId, offset, q }) => {
     }
   }
 };
+
+export const getShoeDetails = async ({ shoeId }) => {
+  try {
+    const { data } = await axios.get(`${API_URL}/items/${shoeId}`);
+
+    return data;
+  } catch (err) {
+    if (err && err.message) {
+      throw new Error(err.message);
+    } else {
+      throw new Error("Неизвестная ошибка");
+    }
+  }
+};
