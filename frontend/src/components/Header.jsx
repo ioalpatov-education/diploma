@@ -1,4 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import {
+  changeSearchInput,
+  sendRequestToGetShoes,
+  resetShoesCatalogWithCategories,
+} from "../store/slices/shoesSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const links = [
   {
@@ -19,8 +26,29 @@ const links = [
   },
 ];
 
+const logoSrc = require("../assets/img/header-logo.png");
+
 const Header = () => {
-  const logoSrc = require("../assets/img/header-logo.png");
+  const searchInput = useSelector((state) => state.shoes.shoeCatalog.search);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const searchFormRef = useRef(null);
+
+  const handleSearchExpanderClick = () => {
+    searchFormRef.current.classList.toggle("invisible");
+
+    if (!searchInput) return;
+
+    dispatch(resetShoesCatalogWithCategories());
+    dispatch(sendRequestToGetShoes());
+    navigate("/catalog");
+  };
+
+  const changeSearchValue = (e) => {
+    const value = e.target.value;
+    dispatch(changeSearchInput(value));
+  };
+
   return (
     <header className="container">
       <div className="row">
@@ -49,6 +77,7 @@ const Header = () => {
                   <div
                     data-id="search-expander"
                     className="header-controls-pic header-controls-search"
+                    onClick={handleSearchExpanderClick}
                   ></div>
                   <div className="header-controls-pic header-controls-cart">
                     <div className="header-controls-cart-full">1</div>
@@ -56,10 +85,16 @@ const Header = () => {
                   </div>
                 </div>
                 <form
+                  ref={searchFormRef}
                   data-id="search-form"
                   className="header-controls-search-form form-inline invisible"
                 >
-                  <input className="form-control" placeholder="Поиск" />
+                  <input
+                    className="form-control"
+                    onChange={changeSearchValue}
+                    value={searchInput}
+                    placeholder="Поиск"
+                  />
                 </form>
               </div>
             </div>
