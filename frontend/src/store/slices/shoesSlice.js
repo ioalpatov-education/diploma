@@ -13,6 +13,8 @@ const initialState = {
     items: [],
     loading: false,
     error: null,
+    isGetMore: false,
+    search: "",
   },
   categories: {
     items: [{ id: allCategoryId, title: "Все" }],
@@ -40,9 +42,12 @@ export const shoesSlice = createSlice({
       const categories = action.payload;
       state.categories.items = [state.categories.items[0], ...categories];
       state.categories.loading = false;
+      state.categories.error = null;
     },
     changeSelectCategoryId: (state, action) => {
       const categoryId = action.payload;
+      state.categories.selectedCategoryId = categoryId;
+      state.shoeCatalog.items = [];
     },
     sendRequestToGetTopSales: (state) => {
       state.topSales.loading = true;
@@ -51,16 +56,41 @@ export const shoesSlice = createSlice({
       const topSales = action.payload;
       state.topSales.items = topSales;
       state.topSales.loading = false;
+      state.topSales.error = null;
+    },
+    sendRequestToGetShoes: (state) => {
+      state.shoeCatalog.loading = true;
+    },
+    getShoesSuccess: (state, action) => {
+      const shoes = action.payload;
+      state.shoeCatalog.isGetMore = shoes.length < 6 ? false : true;
+      state.shoeCatalog.items = [...state.shoeCatalog.items, ...shoes];
+      state.shoeCatalog.loading = false;
+      state.shoeCatalog.error = null;
+    },
+    resetShoesCatalogWithCategories: (state) => {
+      state.shoeCatalog.items = [];
+      state.shoeCatalog.isGetMore = false;
+      state.categories.selectedCategoryId = state.categories.items[0].id;
+    },
+    changeSearchInput: (state, action) => {
+      const search = action.payload;
+      state.shoeCatalog.search = search;
     },
   },
 });
 
 export const {
+  changeSelectCategoryId,
   sendRequestToGetCategories,
   getCategoriesSuccess,
   exposeError,
   sendRequestToGetTopSales,
   getTopSalesSuccess,
+  sendRequestToGetShoes,
+  getShoesSuccess,
+  resetShoesCatalogWithCategories,
+  changeSearchInput,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;

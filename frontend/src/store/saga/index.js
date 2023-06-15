@@ -12,59 +12,51 @@ import {
   exposeError,
   sendRequestToGetTopSales,
   getTopSalesSuccess,
+  sendRequestToGetShoes,
+  getShoesSuccess,
 } from "../slices/shoesSlice";
-import { getCategories, getTopSales } from "../api";
+import { getCategories, getTopSales, getShoes } from "../api";
 
-function* updateApi({ api, id }) {
-  while (true) {
-    try {
-      const apiResponse = yield call(api, id);
-      return apiResponse;
-    } catch (error) {
-      yield delay(3000);
-    }
+function* useApiToGetData(api, type, action, params) {
+  try {
+    const data = yield call(api, params);
+    yield put(action(data));
+  } catch (e) {
+    yield put(
+      exposeError({
+        error: e.message,
+        type,
+      })
+    );
   }
 }
 
 function* handleCategoriesSaga() {
-  try {
-    const data = yield call(getCategories);
-    yield put(getCategoriesSuccess(data));
-  } catch (e) {
-    yield put(
-      exposeError({
-        error: e.message,
-        type: "categories",
-      })
-    );
-  }
+  yield call(
+    useApiToGetData,
+    getCategories,
+    "categories",
+    getCategoriesSuccess
+  );
 }
 
 function* handleTopSalesSaga() {
-  try {
-    const data = yield call(getTopSales);
-    yield put(getTopSalesSuccess(data));
-  } catch (e) {
-    yield put(
-      exposeError({
-        error: e.message,
-        type: "topSales",
-      })
-    );
-  }
+  yield call(useApiToGetData, getTopSales, "topSales", getTopSalesSuccess);
 }
 
-// function* handleNewsListWithLastSeenIdSaga() {
-//   const lastSeenId = yield select((state) => state.news.lastSeenId);
+function* handleShoesSaga() {
+  const { categories, shoeCatalog } = yield select((state) => state.shoes);
+  const categoryId =
+    categories.selectedCategoryId === categories.items[0].id
+      ? null
+      : categories.selectedCategoryId;
 
-//   try {
-//     const data = yield call(updateApi, {
-//       api: getNewsListWithLastSeenId,
-//       id: lastSeenId,
-//     });
-//     yield put(receiptNewsSuccess(data));
-//   } catch (e) {}
-// }
+  yield call(useApiToGetData, getShoes, "shoeCatalog", getShoesSuccess, {
+    categoryId,
+    offset: shoeCatalog.items.length,
+    q: !shoeCatalog.search ? null : shoeCatalog.search,
+  });
+}
 
 function* watchCategoriesSaga() {
   yield takeLeading(sendRequestToGetCategories.type, handleCategoriesSaga);
@@ -74,14 +66,12 @@ function* watchTopSalesSaga() {
   yield takeLeading(sendRequestToGetTopSales.type, handleTopSalesSaga);
 }
 
-// function* watchNewsListWithLastSeenIdSaga() {
-//   yield takeLeading(
-//     sendRequestToReceiveNewsWithLastSeenId.type,
-//     handleNewsListWithLastSeenIdSaga
-//   );
-// }
+function* watchShoesSaga() {
+  yield takeLeading(sendRequestToGetShoes.type, handleShoesSaga);
+}
 
 export default function* saga() {
   yield spawn(watchCategoriesSaga);
   yield spawn(watchTopSalesSaga);
+  yield spawn(watchShoesSaga);
 }

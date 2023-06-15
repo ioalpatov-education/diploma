@@ -27,3 +27,23 @@ export const getTopSales = async () => {
     }
   }
 };
+
+export const getShoes = async ({ categoryId, offset, q }) => {
+  try {
+    const { data } = await axios.get(`${API_URL}/items`, {
+      params: {
+        categoryId,
+        offset,
+        q,
+      },
+    });
+
+    return data;
+  } catch (err) {
+    if (err && err.message) {
+      throw new Error(err.message);
+    } else {
+      throw new Error("Неизвестная ошибка");
+    }
+  }
+};
