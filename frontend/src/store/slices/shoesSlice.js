@@ -14,6 +14,7 @@ const initialState = {
     loading: false,
     error: null,
     isGetMore: false,
+    search: "",
   },
   categories: {
     items: [{ id: allCategoryId, title: "Все" }],
@@ -69,8 +70,12 @@ export const shoesSlice = createSlice({
     },
     resetShoesCatalogWithCategories: (state) => {
       state.shoeCatalog.items = [];
-      state.shoeCatalog.isGetMore = true;
+      state.shoeCatalog.isGetMore = false;
       state.categories.selectedCategoryId = state.categories.items[0].id;
+    },
+    changeSearchInput: (state, action) => {
+      const search = action.payload;
+      state.shoeCatalog.search = search;
     },
   },
 });
@@ -85,6 +90,7 @@ export const {
   sendRequestToGetShoes,
   getShoesSuccess,
   resetShoesCatalogWithCategories,
+  changeSearchInput,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;

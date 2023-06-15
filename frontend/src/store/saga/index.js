@@ -54,6 +54,7 @@ function* handleShoesSaga() {
   yield call(useApiToGetData, getShoes, "shoeCatalog", getShoesSuccess, {
     categoryId,
     offset: shoeCatalog.items.length,
+    q: !shoeCatalog.search ? null : shoeCatalog.search,
   });
 }
 

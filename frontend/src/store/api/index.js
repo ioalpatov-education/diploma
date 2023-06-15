@@ -28,12 +28,13 @@ export const getTopSales = async () => {
   }
 };
 
-export const getShoes = async ({ categoryId, offset }) => {
+export const getShoes = async ({ categoryId, offset, q }) => {
   try {
     const { data } = await axios.get(`${API_URL}/items`, {
       params: {
         categoryId,
         offset,
+        q,
       },
     });
 
