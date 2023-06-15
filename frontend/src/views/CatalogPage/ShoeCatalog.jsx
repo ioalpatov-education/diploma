@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   sendRequestToGetCategories,
   sendRequestToGetShoes,
+  resetShoesCatalogWithCategories,
 } from "../../store/slices/shoesSlice";
 import Preloader from "../../components/Preloader";
 
@@ -16,6 +17,7 @@ const ShoeCatalog = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(resetShoesCatalogWithCategories());
     dispatch(sendRequestToGetCategories());
     dispatch(sendRequestToGetShoes());
   }, []);

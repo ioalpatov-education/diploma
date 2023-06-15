@@ -57,8 +57,7 @@ export const shoesSlice = createSlice({
       state.topSales.loading = false;
       state.topSales.error = null;
     },
-    sendRequestToGetShoes: (state, action) => {
-      // const { categoryId, offset } = action.payload;
+    sendRequestToGetShoes: (state) => {
       state.shoeCatalog.loading = true;
     },
     getShoesSuccess: (state, action) => {
@@ -67,6 +66,11 @@ export const shoesSlice = createSlice({
       state.shoeCatalog.items = [...state.shoeCatalog.items, ...shoes];
       state.shoeCatalog.loading = false;
       state.shoeCatalog.error = null;
+    },
+    resetShoesCatalogWithCategories: (state) => {
+      state.shoeCatalog.items = [];
+      state.shoeCatalog.isGetMore = true;
+      state.categories.selectedCategoryId = state.categories.items[0].id;
     },
   },
 });
@@ -80,6 +84,7 @@ export const {
   getTopSalesSuccess,
   sendRequestToGetShoes,
   getShoesSuccess,
+  resetShoesCatalogWithCategories,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;
