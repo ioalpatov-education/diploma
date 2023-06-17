@@ -27,6 +27,7 @@ const initialState = {
     loading: false,
     error: null,
   },
+  cartItems: [],
 };
 
 export const shoesSlice = createSlice({
@@ -90,6 +91,21 @@ export const shoesSlice = createSlice({
       state.shoeDetails.loading = false;
       state.shoeDetails.error = null;
     },
+    getCartShoesFromLocalStorage: (state) => {
+      const items = [];
+      for (const key in localStorage) {
+        if (!localStorage.hasOwnProperty(key)) continue;
+
+        const cartItem = JSON.parse(localStorage.getItem(key));
+        items.push({
+          ...cartItem,
+          id: +key.split("-")[0],
+          size: key.split("-")[1],
+        });
+      }
+
+      state.cartItems = [...items];
+    },
   },
 });
 
@@ -106,6 +122,7 @@ export const {
   changeSearchInput,
   sendRequestToGetShoeDetails,
   getShoeDetailsSuccess,
+  getCartShoesFromLocalStorage,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;

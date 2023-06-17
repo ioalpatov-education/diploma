@@ -52,8 +52,10 @@ const ShoeDetailsPage = () => {
 
   const addShoeToCart = () => {
     const shoeData = {
+      title: details.title,
       price: details.price,
       quantity,
+
     };
 
     const storageKey = `${id}-${selectedSize}`;

@@ -1,9 +1,14 @@
-const CartPage = () => {
-  for (const key in localStorage) {
-    if (!localStorage.hasOwnProperty(key)) continue;
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCartShoesFromLocalStorage } from "../../store/slices/shoesSlice";
 
-    console.log(JSON.parse(localStorage.getItem(key)));
-  }
+const CartPage = () => {
+  const { details, loading } = useSelector((state) => state.shoes.shoeDetails);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCartShoesFromLocalStorage());
+  }, []);
 
   return (
     <>

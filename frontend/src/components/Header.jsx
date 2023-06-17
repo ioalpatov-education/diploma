@@ -1,9 +1,10 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { NavLink, useNavigate, Link } from "react-router-dom";
+import { useRef, useEffect } from "react";
 import {
   changeSearchInput,
   sendRequestToGetShoes,
   resetShoesCatalogWithCategories,
+  getCartShoesFromLocalStorage,
 } from "../store/slices/shoesSlice";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -29,10 +30,16 @@ const links = [
 const logoSrc = require("../assets/img/header-logo.png");
 
 const Header = () => {
-  const searchInput = useSelector((state) => state.shoes.shoeCatalog.search);
+  const { shoeCatalog, cartItems } = useSelector((state) => state.shoes);
+
+  const searchInput = shoeCatalog.search;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchFormRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(getCartShoesFromLocalStorage());
+  }, []);
 
   const handleSearchExpanderClick = () => {
     searchFormRef.current.classList.toggle("invisible");
@@ -79,10 +86,17 @@ const Header = () => {
                     className="header-controls-pic header-controls-search"
                     onClick={handleSearchExpanderClick}
                   ></div>
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
-                    <div className="header-controls-cart-menu"></div>
-                  </div>
+
+                  <Link to={"/cart"}>
+                    <div className="header-controls-pic header-controls-cart">
+                      {!cartItems.length ? null : (
+                        <div className="header-controls-cart-full">
+                          {cartItems.length}
+                        </div>
+                      )}
+                      <div className="header-controls-cart-menu"></div>
+                    </div>
+                  </Link>
                 </div>
                 <form
                   ref={searchFormRef}
