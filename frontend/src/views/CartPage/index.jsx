@@ -11,6 +11,11 @@ const CartPage = () => {
     dispatch(getCartShoesFromLocalStorage());
   }, []);
 
+  const deleteCartItem = (e, key) => {
+    localStorage.removeItem(key);
+    dispatch(getCartShoesFromLocalStorage());
+  };
+
   return (
     <>
       <section className="cart">
@@ -42,7 +47,12 @@ const CartPage = () => {
                   <td>{item.price} руб.</td>
                   <td>{item.price * item.quantity} руб.</td>
                   <td>
-                    <button className="btn btn-outline-danger btn-sm">
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={(e) =>
+                        deleteCartItem(e, `${item.id}-${item.size}`)
+                      }
+                    >
                       Удалить
                     </button>
                   </td>
