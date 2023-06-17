@@ -27,7 +27,10 @@ const initialState = {
     loading: false,
     error: null,
   },
-  cartItems: [],
+  shoppingCart: {
+    items: [],
+    totalCost: 0,
+  },
 };
 
 export const shoesSlice = createSlice({
@@ -104,7 +107,14 @@ export const shoesSlice = createSlice({
         });
       }
 
-      state.cartItems = [...items];
+      state.shoppingCart.items = [...items];
+
+      state.shoppingCart.totalCost = items.reduce((prev, cur) => {
+        const { quantity, price } = cur;
+        prev += price * quantity;
+
+        return prev;
+      }, 0);
     },
   },
 });

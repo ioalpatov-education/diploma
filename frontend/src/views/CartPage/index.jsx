@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCartShoesFromLocalStorage } from "../../store/slices/shoesSlice";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
-  const { details, loading } = useSelector((state) => state.shoes.shoeDetails);
+  const { items, totalCost } = useSelector((state) => state.shoes.shoppingCart);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,42 +15,49 @@ const CartPage = () => {
     <>
       <section className="cart">
         <h2 className="text-center">Корзина</h2>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Название</th>
-              <th scope="col">Размер</th>
-              <th scope="col">Кол-во</th>
-              <th scope="col">Стоимость</th>
-              <th scope="col">Итого</th>
-              <th scope="col">Действия</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td scope="row">1</td>
-              <td>
-                <a href="/products/1.html">Босоножки 'MYER'</a>
-              </td>
-              <td>18 US</td>
-              <td>1</td>
-              <td>34 000 руб.</td>
-              <td>34 000 руб.</td>
-              <td>
-                <button className="btn btn-outline-danger btn-sm">
-                  Удалить
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="5" className="text-right">
-                Общая стоимость
-              </td>
-              <td>34 000 руб.</td>
-            </tr>
-          </tbody>
-        </table>
+        {!items.length ? (
+          <p>Нет товаров в корзине</p>
+        ) : (
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Размер</th>
+                <th scope="col">Кол-во</th>
+                <th scope="col">Стоимость</th>
+                <th scope="col">Итого</th>
+                <th scope="col">Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, itemIdx) => (
+                <tr key={itemIdx}>
+                  <td>{itemIdx}</td>
+                  <td>
+                    <Link to={`/catalog/${item.id}`}>{item.title}</Link>
+                  </td>
+                  <td>{item.size}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price} руб.</td>
+                  <td>{item.price * item.quantity} руб.</td>
+                  <td>
+                    <button className="btn btn-outline-danger btn-sm">
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              <tr>
+                <td colSpan="5" className="text-right">
+                  Общая стоимость
+                </td>
+                <td>{totalCost} руб.</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
       </section>
       <section className="order">
         <h2 className="text-center">Оформить заказ</h2>

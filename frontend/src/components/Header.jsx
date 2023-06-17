@@ -30,7 +30,7 @@ const links = [
 const logoSrc = require("../assets/img/header-logo.png");
 
 const Header = () => {
-  const { shoeCatalog, cartItems } = useSelector((state) => state.shoes);
+  const { shoeCatalog, shoppingCart } = useSelector((state) => state.shoes);
 
   const searchInput = shoeCatalog.search;
   const dispatch = useDispatch();
@@ -89,9 +89,9 @@ const Header = () => {
 
                   <Link to={"/cart"}>
                     <div className="header-controls-pic header-controls-cart">
-                      {!cartItems.length ? null : (
+                      {!shoppingCart.items.length ? null : (
                         <div className="header-controls-cart-full">
-                          {cartItems.length}
+                          {shoppingCart.items.length}
                         </div>
                       )}
                       <div className="header-controls-cart-menu"></div>
