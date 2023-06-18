@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 const allCategoryId = nanoid();
 
@@ -7,12 +8,10 @@ const initialState = {
   topSales: {
     items: [],
     loading: false,
-    error: null,
   },
   shoeCatalog: {
     items: [],
     loading: false,
-    error: null,
     isGetMore: false,
     search: "",
   },
@@ -20,7 +19,6 @@ const initialState = {
     items: [{ id: allCategoryId, title: "Все" }],
     selectedCategoryId: allCategoryId,
     loading: false,
-    error: null,
   },
   shoeDetails: {
     details: null,
@@ -31,25 +29,29 @@ const initialState = {
     items: [],
     totalCost: 0,
     loading: false,
-    error: null,
-    isOrderingSuccess: false,
   },
+};
+
+const typesForToasts = {
+  topSales: "Хиты продаж",
+  shoeCatalog: "Каталог",
+  categories: "Категории",
+  shoeDetails: "Детали товара",
+  shoppingCart: "Оформление заказа",
 };
 
 export const shoesSlice = createSlice({
   name: "shoes",
   initialState,
   reducers: {
-    resetErrorAndLoading: (state, action) => {
-      const type = action.payload;
-      state[type].error = null;
-      state[type].loading = false;
-    },
     exposeError: (state, action) => {
       const { type, error } = action.payload;
-
-      state[type].error = error;
+      toast.error(`${typesForToasts[type]}: ${error}`);
       state[type].loading = false;
+
+      if (state[type].hasOwnProperty("error")) {
+        state[type].error = error;
+      }
     },
     sendRequestToGetCategories: (state) => {
       state.categories.loading = true;
@@ -58,7 +60,6 @@ export const shoesSlice = createSlice({
       const categories = action.payload;
       state.categories.items = [state.categories.items[0], ...categories];
       state.categories.loading = false;
-      state.categories.error = null;
     },
     changeSelectCategoryId: (state, action) => {
       const categoryId = action.payload;
@@ -72,7 +73,6 @@ export const shoesSlice = createSlice({
       const topSales = action.payload;
       state.topSales.items = topSales;
       state.topSales.loading = false;
-      state.topSales.error = null;
     },
     sendRequestToGetShoes: (state) => {
       state.shoeCatalog.loading = true;
@@ -82,7 +82,6 @@ export const shoesSlice = createSlice({
       state.shoeCatalog.isGetMore = shoes.length < 6 ? false : true;
       state.shoeCatalog.items = [...state.shoeCatalog.items, ...shoes];
       state.shoeCatalog.loading = false;
-      state.shoeCatalog.error = null;
     },
     resetShoesCatalogWithCategories: (state) => {
       state.shoeCatalog.items = [];
@@ -98,8 +97,8 @@ export const shoesSlice = createSlice({
     getShoeDetailsSuccess: (state, action) => {
       const details = action.payload;
       state.shoeDetails.details = { ...details };
-      state.shoeDetails.loading = false;
       state.shoeDetails.error = null;
+      state.shoeDetails.loading = false;
     },
     getCartShoesFromLocalStorage: (state) => {
       const items = [];
@@ -127,11 +126,9 @@ export const shoesSlice = createSlice({
       state.shoppingCart.loading = true;
     },
     orderingSuccess: (state) => {
-      state.shoppingCart.isOrderingSuccess = true;
-      state.shoeDetails.loading = false;
-      state.shoeDetails.error = null;
-
+      state.shoppingCart.loading = false;
       localStorage.clear();
+      toast.success("Заказ успешно оформлен");
       state.shoppingCart.items = [];
       state.shoppingCart.totalCost = 0;
     },

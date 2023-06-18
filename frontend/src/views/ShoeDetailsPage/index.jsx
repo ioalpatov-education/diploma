@@ -13,12 +13,10 @@ const characteristics = {
   reason: "Повод",
 };
 
-//
-// ДОБАВИТЬ ОБРАБОТКУ ОШИБОК
-//
-
 const ShoeDetailsPage = () => {
-  const { details, loading } = useSelector((state) => state.shoes.shoeDetails);
+  const { details, loading, error } = useSelector(
+    (state) => state.shoes.shoeDetails
+  );
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
@@ -31,6 +29,12 @@ const ShoeDetailsPage = () => {
   useEffect(() => {
     dispatch(sendRequestToGetShoeDetails(id));
   }, []);
+
+  useEffect(() => {
+    if (error === "Not found") {
+      navigate("/not-found");
+    }
+  }, [error]);
 
   const changeSize = (e, size) => {
     setSelectedSize(size);
@@ -55,7 +59,6 @@ const ShoeDetailsPage = () => {
       title: details.title,
       price: details.price,
       quantity,
-
     };
 
     const storageKey = `${id}-${selectedSize}`;
@@ -82,92 +85,97 @@ const ShoeDetailsPage = () => {
 
   return (
     <>
-      {loading || !details ? (
+      {loading ? (
         <Preloader />
       ) : (
-        <section className="catalog-item">
-          <h2 className="text-center">{details.title}</h2>
-          <div className="row">
-            <div className="col-5">
-              <img
-                src={details.images[0]}
-                className="img-fluid"
-                alt={details.title}
-              />
-            </div>
-            <div className="col-7">
-              <table className="table table-bordered">
-                <tbody>
-                  {Object.entries(characteristics).map((characteristic) => {
-                    const [value, translation] = characteristic;
-                    return !details[value] ? null : (
-                      <tr key={value}>
-                        <td>{translation}</td>
-                        <td>{details[value]}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {!!details.sizes &&
-              !!details.sizes.length &&
-              details.sizes.filter((s) => s.available).length ? (
-                <>
-                  {" "}
-                  <div className="text-center">
-                    <p>
-                      Размеры в наличии:
-                      {details.sizes.map((s) => (
-                        <button
-                          className={
-                            selectedSize === s.size
-                              ? "catalog-item-size selected"
-                              : "catalog-item-size"
-                          }
-                          key={s.size}
-                          onClick={(e) => changeSize(e, s.size)}
-                        >
-                          {s.size}
-                        </button>
-                      ))}
-                    </p>
-                    <p>
-                      Количество:
-                      <span className="btn-group btn-group-sm pl-2">
-                        <button
-                          className="btn btn-secondary"
-                          onClick={(e) => changeQuantity(e, "decrease")}
-                          disabled={quantity === 1}
-                        >
-                          -
-                        </button>
-                        <span className="btn btn-outline-primary">
-                          {quantity}
-                        </span>
-                        <button
-                          className="btn btn-secondary"
-                          onClick={(e) => changeQuantity(e, "increase")}
-                          disabled={quantity === 10}
-                        >
-                          +
-                        </button>
-                      </span>
-                    </p>
-                  </div>
-                  <button
-                    className="btn btn-danger btn-block btn-lg"
-                    disabled={!selectedSize}
-                    onClick={addShoeToCart}
-                  >
-                    В корзину
-                  </button>
-                </>
-              ) : (
-                <p>Размеров нет</p>
-              )}
-            </div>
-          </div>
-        </section>
+        <>
+          {!details ? (
+            <h5 className="text-center">Нет деталей</h5>
+          ) : (
+            <section className="catalog-item">
+              <h2 className="text-center">{details.title}</h2>
+              <div className="row">
+                <div className="col-5">
+                  <img
+                    src={details.images[0]}
+                    className="img-fluid"
+                    alt={details.title}
+                  />
+                </div>
+                <div className="col-7">
+                  <table className="table table-bordered">
+                    <tbody>
+                      {Object.entries(characteristics).map((characteristic) => {
+                        const [value, translation] = characteristic;
+                        return !details[value] ? null : (
+                          <tr key={value}>
+                            <td>{translation}</td>
+                            <td>{details[value]}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  {!!details.sizes &&
+                  !!details.sizes.length &&
+                  details.sizes.filter((s) => s.available).length ? (
+                    <>
+                      <div className="text-center">
+                        <p>
+                          Размеры в наличии:
+                          {details.sizes.map((s) => (
+                            <button
+                              className={
+                                selectedSize === s.size
+                                  ? "catalog-item-size selected"
+                                  : "catalog-item-size"
+                              }
+                              key={s.size}
+                              onClick={(e) => changeSize(e, s.size)}
+                            >
+                              {s.size}
+                            </button>
+                          ))}
+                        </p>
+                        <p>
+                          Количество:
+                          <span className="btn-group btn-group-sm pl-2">
+                            <button
+                              className="btn btn-secondary"
+                              onClick={(e) => changeQuantity(e, "decrease")}
+                              disabled={quantity === 1}
+                            >
+                              -
+                            </button>
+                            <span className="btn btn-outline-primary">
+                              {quantity}
+                            </span>
+                            <button
+                              className="btn btn-secondary"
+                              onClick={(e) => changeQuantity(e, "increase")}
+                              disabled={quantity === 10}
+                            >
+                              +
+                            </button>
+                          </span>
+                        </p>
+                      </div>
+                      <button
+                        className="btn btn-danger btn-block btn-lg"
+                        disabled={!selectedSize}
+                        onClick={addShoeToCart}
+                      >
+                        В корзину
+                      </button>
+                    </>
+                  ) : (
+                    <p>Размеров нет</p>
+                  )}
+                </div>
+              </div>
+            </section>
+          )}
+        </>
       )}
     </>
   );

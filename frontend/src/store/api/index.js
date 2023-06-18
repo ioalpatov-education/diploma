@@ -7,8 +7,8 @@ export const getCategories = async () => {
     const { data } = await axios.get(`${API_URL}/categories`);
     return data;
   } catch (err) {
-    if (err && err.message) {
-      throw new Error(err.message);
+    if (err && err?.response?.data) {
+      throw new Error(err?.response?.data);
     } else {
       throw new Error("Неизвестная ошибка");
     }
@@ -20,8 +20,8 @@ export const getTopSales = async () => {
     const { data } = await axios.get(`${API_URL}/top-sales`);
     return data;
   } catch (err) {
-    if (err && err.message) {
-      throw new Error(err.message);
+    if (err && err?.response?.data) {
+      throw new Error(err?.response?.data);
     } else {
       throw new Error("Неизвестная ошибка");
     }
@@ -40,8 +40,8 @@ export const getShoes = async ({ categoryId, offset, q }) => {
 
     return data;
   } catch (err) {
-    if (err && err.message) {
-      throw new Error(err.message);
+    if (err && err?.response?.data) {
+      throw new Error(err?.response?.data);
     } else {
       throw new Error("Неизвестная ошибка");
     }
@@ -54,8 +54,8 @@ export const getShoeDetails = async ({ shoeId }) => {
 
     return data;
   } catch (err) {
-    if (err && err.message) {
-      throw new Error(err.message);
+    if (err && err?.response?.data) {
+      throw new Error(err?.response?.data);
     } else {
       throw new Error("Неизвестная ошибка");
     }
@@ -71,8 +71,8 @@ export const makeOrder = async ({ owner, items }) => {
 
     return data;
   } catch (err) {
-    if (err && err.message) {
-      throw new Error(err.message);
+    if (err && err?.response?.data) {
+      throw new Error(err?.response?.data);
     } else {
       throw new Error("Неизвестная ошибка");
     }

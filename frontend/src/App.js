@@ -9,11 +9,16 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CartPage from "./views/CartPage";
 import { useRoutes } from "react-router-dom";
-
+import "react-toastify/dist/ReactToastify.css";
+import Toast from "./components/Toast";
 function App() {
   const routes = useRoutes([
     {
       path: "*",
+      element: <NotFoundPage />,
+    },
+    {
+      path: "/not-found",
       element: <NotFoundPage />,
     },
     {
@@ -27,6 +32,7 @@ function App() {
     {
       path: "/catalog/:id",
       element: <ShoeDetailsPage />,
+      errorElement: <NotFoundPage />,
     },
     {
       path: "/about",
@@ -63,6 +69,7 @@ function App() {
         </div>
       </main>
       <Footer />
+      <Toast />
     </div>
   );
 }
