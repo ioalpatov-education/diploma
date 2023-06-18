@@ -15,12 +15,12 @@ const Cart = () => {
     localStorage.removeItem(key);
     dispatch(getCartShoesFromLocalStorage());
   };
-  
+
   return (
     <section className="cart">
       <h2 className="text-center">Корзина</h2>
       {!items.length ? (
-        <p>Нет товаров в корзине</p>
+        <p className="text-center">Нет товаров в корзине</p>
       ) : (
         <table className="table table-bordered">
           <thead>

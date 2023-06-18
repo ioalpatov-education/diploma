@@ -61,3 +61,20 @@ export const getShoeDetails = async ({ shoeId }) => {
     }
   }
 };
+
+export const makeOrder = async ({ owner, items }) => {
+  try {
+    const { data } = await axios.post(`${API_URL}/order`, {
+      owner,
+      items,
+    });
+
+    return data;
+  } catch (err) {
+    if (err && err.message) {
+      throw new Error(err.message);
+    } else {
+      throw new Error("Неизвестная ошибка");
+    }
+  }
+};

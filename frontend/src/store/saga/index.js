@@ -9,8 +9,16 @@ import {
   getShoesSuccess,
   sendRequestToGetShoeDetails,
   getShoeDetailsSuccess,
+  sendRequestToOrdering,
+  orderingSuccess,
 } from "../slices/shoesSlice";
-import { getCategories, getTopSales, getShoes, getShoeDetails } from "../api";
+import {
+  getCategories,
+  getTopSales,
+  getShoes,
+  getShoeDetails,
+  makeOrder,
+} from "../api";
 
 function* useApiToGetData(api, type, action, params) {
   try {
@@ -66,6 +74,20 @@ function* handleShoeDetailsSaga(action) {
   );
 }
 
+function* handleOrderingSaga(action) {
+  const { items } = yield select((state) => state.shoes.shoppingCart);
+
+  const owner = action.payload;
+  yield call(useApiToGetData, makeOrder, "shoppingCart", orderingSuccess, {
+    owner,
+    items: items.map((item) => ({
+      id: item.id,
+      price: item.price,
+      count: item.quantity,
+    })),
+  });
+}
+
 function* watchCategoriesSaga() {
   yield takeLeading(sendRequestToGetCategories.type, handleCategoriesSaga);
 }
@@ -82,9 +104,14 @@ function* watchShoeDetailsSaga() {
   yield takeLeading(sendRequestToGetShoeDetails.type, handleShoeDetailsSaga);
 }
 
+function* watchOrderingSaga() {
+  yield takeLeading(sendRequestToOrdering.type, handleOrderingSaga);
+}
+
 export default function* saga() {
   yield spawn(watchCategoriesSaga);
   yield spawn(watchTopSalesSaga);
   yield spawn(watchShoesSaga);
   yield spawn(watchShoeDetailsSaga);
+  yield spawn(watchOrderingSaga);
 }

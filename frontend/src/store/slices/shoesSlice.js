@@ -30,6 +30,9 @@ const initialState = {
   shoppingCart: {
     items: [],
     totalCost: 0,
+    loading: false,
+    error: null,
+    isOrderingSuccess: false,
   },
 };
 
@@ -37,6 +40,11 @@ export const shoesSlice = createSlice({
   name: "shoes",
   initialState,
   reducers: {
+    resetErrorAndLoading: (state, action) => {
+      const type = action.payload;
+      state[type].error = null;
+      state[type].loading = false;
+    },
     exposeError: (state, action) => {
       const { type, error } = action.payload;
 
@@ -46,7 +54,6 @@ export const shoesSlice = createSlice({
     sendRequestToGetCategories: (state) => {
       state.categories.loading = true;
     },
-
     getCategoriesSuccess: (state, action) => {
       const categories = action.payload;
       state.categories.items = [state.categories.items[0], ...categories];
@@ -116,6 +123,18 @@ export const shoesSlice = createSlice({
         return prev;
       }, 0);
     },
+    sendRequestToOrdering: (state) => {
+      state.shoppingCart.loading = true;
+    },
+    orderingSuccess: (state) => {
+      state.shoppingCart.isOrderingSuccess = true;
+      state.shoeDetails.loading = false;
+      state.shoeDetails.error = null;
+
+      localStorage.clear();
+      state.shoppingCart.items = [];
+      state.shoppingCart.totalCost = 0;
+    },
   },
 });
 
@@ -133,6 +152,8 @@ export const {
   sendRequestToGetShoeDetails,
   getShoeDetailsSuccess,
   getCartShoesFromLocalStorage,
+  sendRequestToOrdering,
+  orderingSuccess,
 } = shoesSlice.actions;
 
 export default shoesSlice.reducer;
