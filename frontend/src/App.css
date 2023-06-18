@@ -330,3 +330,18 @@ h2,
   background-color: #727e86;
   border-color: #727e86;
 }
+
+/* Cart */
+
+.checkout-block {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.error-text {
+  color: #ff0000;
+}
+
+.error-text--check {
+  margin-left: -1.25rem;
+}
