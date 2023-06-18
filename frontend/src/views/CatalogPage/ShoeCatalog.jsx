@@ -35,7 +35,11 @@ const ShoeCatalog = ({ children }) => {
         <>
           {children}
           {categoriesLoading ? <Preloader /> : <Filters />}
-          <ShoesList shoes={shoes} />
+          {!shoes.length ? (
+            <h5 className="text-center">Нет товаров</h5>
+          ) : (
+            <ShoesList shoes={shoes} />
+          )}
         </>
       )}
       {isGetMore ? (

@@ -4,6 +4,7 @@ import CatalogPage from "./views/CatalogPage";
 import AboutPage from "./views/AboutPage";
 import ContactsPage from "./views/ContactsPage";
 import ShoeDetailsPage from "./views/ShoeDetailsPage";
+import NotFoundPage from "./views/NotFoundPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CartPage from "./views/CartPage";
@@ -11,6 +12,10 @@ import { useRoutes } from "react-router-dom";
 
 function App() {
   const routes = useRoutes([
+    {
+      path: "*",
+      element: <NotFoundPage />,
+    },
     {
       path: "/",
       element: <HomePage />,

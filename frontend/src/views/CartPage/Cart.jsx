@@ -20,7 +20,7 @@ const Cart = () => {
     <section className="cart">
       <h2 className="text-center">Корзина</h2>
       {!items.length ? (
-        <p className="text-center">Нет товаров в корзине</p>
+        <h5 className="text-center">Нет товаров в корзине</h5>
       ) : (
         <table className="table table-bordered">
           <thead>
