@@ -61,25 +61,24 @@ const ShoeDetailsPage = () => {
       quantity,
     };
 
-    const storageKey = `${id}-${selectedSize}`;
+    const storageKey = "shoesCart";
 
-    const jsonShoeInLS = localStorage.getItem(storageKey);
+    const itemKey = `${id}-${selectedSize}`;
 
-    if (!jsonShoeInLS) {
-      localStorage.setItem(storageKey, JSON.stringify(shoeData));
-      navigate("/cart");
-      return;
+    const jsonShoesCartInLS = localStorage.getItem(storageKey);
+
+    const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
+
+    if (!shoesCart.hasOwnProperty(itemKey)) {
+      shoesCart[itemKey] = shoeData;
+    } else {
+      shoesCart[itemKey] = {
+        ...shoesCart.itemKey,
+        quantity: shoesCart.itemKey.quantity + quantity,
+      };
     }
 
-    const shoeInLS = JSON.parse(jsonShoeInLS);
-
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify({
-        ...shoeInLS,
-        quantity: shoeInLS.quantity + quantity,
-      })
-    );
+    localStorage.setItem(storageKey, JSON.stringify(shoesCart));
     navigate("/cart");
   };
 
