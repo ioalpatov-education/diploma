@@ -102,10 +102,14 @@ export const shoesSlice = createSlice({
     },
     getCartShoesFromLocalStorage: (state) => {
       const items = [];
-      for (const key in localStorage) {
-        if (!localStorage.hasOwnProperty(key)) continue;
+      const storageKey = "shoesCart";
 
-        const cartItem = JSON.parse(localStorage.getItem(key));
+      const jsonShoesCartInLS = localStorage.getItem(storageKey);
+
+      const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
+
+      for (const key in shoesCart) {
+        const cartItem = shoesCart[key];
         items.push({
           ...cartItem,
           id: +key.split("-")[0],

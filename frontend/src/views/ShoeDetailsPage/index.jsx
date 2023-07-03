@@ -73,8 +73,8 @@ const ShoeDetailsPage = () => {
       shoesCart[itemKey] = shoeData;
     } else {
       shoesCart[itemKey] = {
-        ...shoesCart.itemKey,
-        quantity: shoesCart.itemKey.quantity + quantity,
+        ...shoesCart[itemKey],
+        quantity: shoesCart[itemKey].quantity + quantity,
       };
     }
 
