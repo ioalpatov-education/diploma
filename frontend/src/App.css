@@ -119,6 +119,10 @@ section {
   );
 }
 
+.banner-img {
+  height: 277px;
+}
+
 /* Preloader */
 .preloader {
   margin: 10px auto;

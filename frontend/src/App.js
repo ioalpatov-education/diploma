@@ -59,7 +59,7 @@ function App() {
             <div className="banner">
               <img
                 src={bannerSrc}
-                className="img-fluid"
+                className="img-fluid banner-img"
                 alt="К весне готовы!"
               />
               <h2 className="banner-header">К весне готовы!</h2>
