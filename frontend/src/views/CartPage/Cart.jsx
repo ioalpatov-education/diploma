@@ -12,7 +12,19 @@ const Cart = () => {
   }, []);
 
   const deleteCartItem = (e, key) => {
-    localStorage.removeItem(key);
+    const jsonShoesCartInLS = localStorage.getItem(
+      process.env.REACT_APP_LS_SHOES_CART_KEY
+    );
+
+    const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
+
+    delete shoesCart[key];
+
+    localStorage.setItem(
+      process.env.REACT_APP_LS_SHOES_CART_KEY,
+      JSON.stringify(shoesCart)
+    );
+
     dispatch(getCartShoesFromLocalStorage());
   };
 
