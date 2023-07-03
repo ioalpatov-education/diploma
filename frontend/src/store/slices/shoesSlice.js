@@ -102,9 +102,10 @@ export const shoesSlice = createSlice({
     },
     getCartShoesFromLocalStorage: (state) => {
       const items = [];
-      const storageKey = "shoesCart";
 
-      const jsonShoesCartInLS = localStorage.getItem(storageKey);
+      const jsonShoesCartInLS = localStorage.getItem(
+        process.env.REACT_APP_LS_SHOES_CART_KEY
+      );
 
       const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
 

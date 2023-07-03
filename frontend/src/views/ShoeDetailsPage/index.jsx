@@ -61,11 +61,11 @@ const ShoeDetailsPage = () => {
       quantity,
     };
 
-    const storageKey = "shoesCart";
-
     const itemKey = `${id}-${selectedSize}`;
 
-    const jsonShoesCartInLS = localStorage.getItem(storageKey);
+    const jsonShoesCartInLS = localStorage.getItem(
+      process.env.REACT_APP_LS_SHOES_CART_KEY
+    );
 
     const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
 
@@ -78,7 +78,10 @@ const ShoeDetailsPage = () => {
       };
     }
 
-    localStorage.setItem(storageKey, JSON.stringify(shoesCart));
+    localStorage.setItem(
+      process.env.REACT_APP_LS_SHOES_CART_KEY,
+      JSON.stringify(shoesCart)
+    );
     navigate("/cart");
   };
 
