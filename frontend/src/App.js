@@ -11,6 +11,8 @@ import CartPage from "./views/CartPage";
 import { useRoutes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Toast from "./components/Toast";
+import bannerSrc from "./assets/img/banner.jpg";
+
 function App() {
   const routes = useRoutes([
     {
@@ -47,8 +49,6 @@ function App() {
       element: <CartPage />,
     },
   ]);
-
-  const bannerSrc = require("./assets/img/banner.jpg");
 
   return (
     <div className="app">

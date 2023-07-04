@@ -22,20 +22,7 @@ export const ShoePropTypes = PropTypes.shape({
   category: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  // sku: PropTypes.string.isRequired,
-  // manufacturer: PropTypes.string.isRequired,
-  // color: PropTypes.string.isRequired,
-  // material: PropTypes.string.isRequired,
-  // reason: PropTypes.string.isRequired,
-  // heelSize: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  // oldPrice: PropTypes.number.isRequired,
-  // sizes: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     size: PropTypes.string.isRequired,
-  //     available: PropTypes.bool.isRequired,
-  //   })
-  // ).isRequired,
 }).isRequired;
 
 ShoeCard.propTypes = {
