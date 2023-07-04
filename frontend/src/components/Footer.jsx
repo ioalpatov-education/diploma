@@ -1,19 +1,5 @@
 import { NavLink } from "react-router-dom";
-
-const links = [
-  {
-    to: "/catalog",
-    title: "Каталог",
-  },
-  {
-    to: "/about",
-    title: "О магазине",
-  },
-  {
-    to: "/contacts",
-    title: "Контакты",
-  },
-];
+import { links } from "../utils/defaultData";
 
 const Footer = () => {
   return (
@@ -23,7 +9,7 @@ const Footer = () => {
           <section>
             <h5>Информация</h5>
             <ul className="nav flex-column">
-              {links.map((link, linkIdx) => (
+              {links.slice(1).map((link, linkIdx) => (
                 <li className="nav-item " key={linkIdx}>
                   <NavLink className="nav-link" to={link.to}>
                     {link.title}

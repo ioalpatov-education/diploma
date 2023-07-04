@@ -7,26 +7,8 @@ import {
   getCartShoesFromLocalStorage,
 } from "../store/slices/shoesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import logoSrc from "../assets/img/header-logo.png"
-
-const links = [
-  {
-    to: "/",
-    title: "Главная",
-  },
-  {
-    to: "/catalog",
-    title: "Каталог",
-  },
-  {
-    to: "/about",
-    title: "О магазине",
-  },
-  {
-    to: "/contacts",
-    title: "Контакты",
-  },
-];
+import logoSrc from "../assets/img/header-logo.png";
+import { links } from "../utils/defaultData";
 
 const Header = () => {
   const { shoeCatalog, shoppingCart } = useSelector((state) => state.shoes);
