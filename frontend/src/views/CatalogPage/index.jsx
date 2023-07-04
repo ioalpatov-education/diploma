@@ -18,7 +18,6 @@ const CatalogPage = () => {
 
   const searchShoes = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
       dispatch(resetShoesCatalogWithCategories());
       dispatch(sendRequestToGetShoes());
     }

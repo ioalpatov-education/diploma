@@ -22,6 +22,10 @@ const Header = () => {
     dispatch(getCartShoesFromLocalStorage());
   }, []);
 
+  useEffect(() => {
+    console.log("header");
+  });
+
   const handleSearchExpanderClick = () => {
     searchFormRef.current.classList.toggle("invisible");
 
@@ -40,6 +44,13 @@ const Header = () => {
   const changeSearchValue = (e) => {
     const value = e.target.value;
     dispatch(changeSearchInput(value));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearchExpanderClick();
+    }
   };
 
   return (
@@ -90,6 +101,7 @@ const Header = () => {
                   className="header-controls-search-form form-inline invisible"
                 >
                   <input
+                    onKeyDown={handleKeyDown}
                     className="form-control"
                     onChange={changeSearchValue}
                     value={searchInput}
