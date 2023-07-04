@@ -27,6 +27,7 @@ const initialState = {
   },
   shoppingCart: {
     items: [],
+    count: 0,
     totalCost: 0,
     loading: false,
   },
@@ -100,6 +101,15 @@ export const shoesSlice = createSlice({
       state.shoeDetails.error = null;
       state.shoeDetails.loading = false;
     },
+    getCartShoesCountFromLocalStorage: (state) => {
+      const jsonShoesCartInLS = localStorage.getItem(
+        process.env.REACT_APP_LS_SHOES_CART_KEY
+      );
+
+      const shoesCart = !jsonShoesCartInLS ? {} : JSON.parse(jsonShoesCartInLS);
+
+      state.count = Object.keys(shoesCart).length;
+    },
     getCartShoesFromLocalStorage: (state) => {
       const items = [];
 
@@ -154,6 +164,7 @@ export const {
   sendRequestToGetShoeDetails,
   getShoeDetailsSuccess,
   getCartShoesFromLocalStorage,
+  getCartShoesCountFromLocalStorage,
   sendRequestToOrdering,
   orderingSuccess,
 } = shoesSlice.actions;

@@ -22,14 +22,15 @@ const ShoeCatalog = ({ children }) => {
     dispatch(sendRequestToGetShoes());
   }, []);
 
-  const loadMoreShoes = () => {
+  const loadMoreShoes = (e) => {
+    e.preventDefault();
     dispatch(sendRequestToGetShoes());
   };
 
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
-      {shoeCatalogLoading ? (
+      {shoeCatalogLoading && !shoes.length ? (
         <Preloader />
       ) : (
         <>
@@ -42,9 +43,11 @@ const ShoeCatalog = ({ children }) => {
           )}
         </>
       )}
+      {shoeCatalogLoading && !!shoes.length ? <Preloader /> : null}
       {isGetMore ? (
         <div className="text-center">
           <button
+            type="button"
             className="btn btn-outline-primary"
             onClick={loadMoreShoes}
             disabled={shoeCatalogLoading}

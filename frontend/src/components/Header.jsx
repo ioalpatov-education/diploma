@@ -4,7 +4,7 @@ import {
   changeSearchInput,
   sendRequestToGetShoes,
   resetShoesCatalogWithCategories,
-  getCartShoesFromLocalStorage,
+  getCartShoesCountFromLocalStorage,
 } from "../store/slices/shoesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import logoSrc from "../assets/img/header-logo.png";
@@ -13,17 +13,17 @@ import { links } from "../utils/defaultData";
 const Header = () => {
   const { shoeCatalog, shoppingCart } = useSelector((state) => state.shoes);
 
-  const searchInput = shoeCatalog.search;
+  const searchInput = "shoeCatalog.search;";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchFormRef = useRef(null);
 
   useEffect(() => {
-    dispatch(getCartShoesFromLocalStorage());
+    dispatch(getCartShoesCountFromLocalStorage());
   }, []);
 
   useEffect(() => {
-    console.log("header");
+    console.log("shoppingCartShoesCount");
   });
 
   const handleSearchExpanderClick = () => {
@@ -86,9 +86,9 @@ const Header = () => {
 
                   <Link to={"/cart"}>
                     <div className="header-controls-pic header-controls-cart">
-                      {!shoppingCart.items.length ? null : (
+                      {!shoppingCart.count ? null : (
                         <div className="header-controls-cart-full">
-                          {shoppingCart.items.length}
+                          {shoppingCart.count}
                         </div>
                       )}
                       <div className="header-controls-cart-menu"></div>
