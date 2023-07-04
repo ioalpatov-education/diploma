@@ -25,7 +25,12 @@ const Header = () => {
   const handleSearchExpanderClick = () => {
     searchFormRef.current.classList.toggle("invisible");
 
-    if (!searchInput) return;
+    if (
+      !searchInput ||
+      !searchFormRef.current.classList.contains("invisible")
+    ) {
+      return;
+    }
 
     dispatch(resetShoesCatalogWithCategories());
     dispatch(sendRequestToGetShoes());
