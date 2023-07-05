@@ -13,7 +13,7 @@ import { links } from "../utils/defaultData";
 const Header = () => {
   const { shoeCatalog, shoppingCart } = useSelector((state) => state.shoes);
 
-  const searchInput = "shoeCatalog.search;";
+  const searchInput = shoeCatalog.search;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchFormRef = useRef(null);
@@ -21,10 +21,6 @@ const Header = () => {
   useEffect(() => {
     dispatch(getCartShoesCountFromLocalStorage());
   }, []);
-
-  useEffect(() => {
-    console.log("shoppingCartShoesCount");
-  });
 
   const handleSearchExpanderClick = () => {
     searchFormRef.current.classList.toggle("invisible");

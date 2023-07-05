@@ -16,3 +16,12 @@ export const links = [
     title: "Контакты",
   },
 ];
+
+export const characteristics = {
+  sku: "Артикул",
+  manufacturer: "Производитель",
+  color: "Цвет",
+  material: "Материалы",
+  season: "Сезон",
+  reason: "Повод",
+};

@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { sendRequestToGetShoeDetails } from "../../store/slices/shoesSlice";
 import Preloader from "../../components/Preloader";
+import DetailsTable from "./DetailsTable";
+import SizeBlock from "./SizeBlock";
+import QuantityBlock from "./QuantityBlock";
 
-const characteristics = {
-  sku: "Артикул",
-  manufacturer: "Производитель",
-  color: "Цвет",
-  material: "Материалы",
-  season: "Сезон",
-  reason: "Повод",
-};
+export const ShoeContext = createContext(null);
 
 const ShoeDetailsPage = () => {
   const { details, loading, error } = useSelector(
@@ -35,24 +31,6 @@ const ShoeDetailsPage = () => {
       navigate("/not-found");
     }
   }, [error]);
-
-  const changeSize = (e, size) => {
-    setSelectedSize(size);
-  };
-
-  const changeQuantity = (e, type) => {
-    switch (type) {
-      case "decrease":
-        setQuantity(quantity - 1);
-
-        break;
-      case "increase":
-        setQuantity(quantity + 1);
-        break;
-      default:
-        break;
-    }
-  };
 
   const addShoeToCart = () => {
     const shoeData = {
@@ -86,7 +64,9 @@ const ShoeDetailsPage = () => {
   };
 
   return (
-    <>
+    <ShoeContext.Provider
+      value={{ details, selectedSize, setSelectedSize, quantity, setQuantity }}
+    >
       {loading ? (
         <Preloader />
       ) : (
@@ -105,62 +85,14 @@ const ShoeDetailsPage = () => {
                   />
                 </div>
                 <div className="col-7">
-                  <table className="table table-bordered">
-                    <tbody>
-                      {Object.entries(characteristics).map((characteristic) => {
-                        const [value, translation] = characteristic;
-                        return !details[value] ? null : (
-                          <tr key={value}>
-                            <td>{translation}</td>
-                            <td>{details[value]}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <DetailsTable />
                   {!!details.sizes &&
                   !!details.sizes.length &&
                   details.sizes.filter((s) => s.available).length ? (
                     <>
                       <div className="text-center">
-                        <p>
-                          Размеры в наличии:
-                          {details.sizes.map((s) => (
-                            <button
-                              className={
-                                selectedSize === s.size
-                                  ? "catalog-item-size selected"
-                                  : "catalog-item-size"
-                              }
-                              key={s.size}
-                              onClick={(e) => changeSize(e, s.size)}
-                            >
-                              {s.size}
-                            </button>
-                          ))}
-                        </p>
-                        <p>
-                          Количество:
-                          <span className="btn-group btn-group-sm pl-2">
-                            <button
-                              className="btn btn-secondary"
-                              onClick={(e) => changeQuantity(e, "decrease")}
-                              disabled={quantity === 1}
-                            >
-                              -
-                            </button>
-                            <span className="btn btn-outline-primary">
-                              {quantity}
-                            </span>
-                            <button
-                              className="btn btn-secondary"
-                              onClick={(e) => changeQuantity(e, "increase")}
-                              disabled={quantity === 10}
-                            >
-                              +
-                            </button>
-                          </span>
-                        </p>
+                        <SizeBlock />
+                        <QuantityBlock />
                       </div>
                       <button
                         className="btn btn-danger btn-block btn-lg"
@@ -179,7 +111,7 @@ const ShoeDetailsPage = () => {
           )}
         </>
       )}
-    </>
+    </ShoeContext.Provider>
   );
 };
 
